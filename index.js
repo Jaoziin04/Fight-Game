@@ -7,7 +7,7 @@ canvas.height = 576;
 con.fillRect(0 , 0, canvas.width, canvas.height); // método da api do canvas, que desenha um retângulo
                                                   // este retângulo, vai ser a area do jogo 
 
-const gravidade = 0.2; // gravidade, para certificar que os objetos, estão no chão
+const gravidade = 0.7; // gravidade, para certificar que os objetos, estão no chão
 
 // classe sprite, que ira ajudar na criação do player e do inimigo
 class Sprite
@@ -16,7 +16,8 @@ class Sprite
     {
         this.position = posicao;
         this.speed = speed;
-        this.height = 150
+        this.height = 150;
+        this.ultimaTecla;
     }
 
     desenhar()
@@ -77,10 +78,26 @@ const teclas = {
 
     d:{
         pressed: false
+    },
+    // espaço
+    ' ':{
+        pressed: false
+    },
+    w:{
+        pressed: false
+    },
+    ArrowRight:{
+        pressed: false
+    },
+    ArrowLeft:{
+        pressed: false
+    },
+    ArrowUp:{
+        pressed: false
     }
 }
 
-let ultimaTecla;
+//let ultimaTecla;
 
 // função para animar objetos
 function animar()
@@ -92,16 +109,29 @@ function animar()
     player.atualizar() // desenha player na tela
     inimigo.atualizar() // desenha inimigo na tela
 
-    player.speed.x =0;
+    player.speed.x = 0;
+    inimigo.speed.x = 0;
 
-    if(teclas.a.pressed == true && ultimaTecla === 'a') // se o jogador apertar a
+    // Player 1
+    if(teclas.a.pressed == true && player.ultimaTecla === 'a') // se o jogador apertar a
     {
-        player.speed.x = -1; // mexe player pra esquerda
+        player.speed.x = -5; // mexe player pra esquerda
     }
     else 
-        if(teclas.d.pressed == true && ultimaTecla === 'd') // se o jogador apertar d
+        if(teclas.d.pressed == true && player.ultimaTecla === 'd') // se o jogador apertar d
         {
-            player.speed.x = 1; // mexe player pra direita 
+            player.speed.x = 5; // mexe player pra direita 
+        }
+
+    // Player 2
+    if(teclas.ArrowLeft.pressed == true && inimigo.ultimaTecla === 'ArrowLeft') 
+    {
+        inimigo.speed.x = -5; // mexe player pra esquerda
+    }
+    else 
+        if(teclas.ArrowRight.pressed == true && inimigo.ultimaTecla === 'ArrowRight')
+        {
+            inimigo.speed.x = 5; // mexe player pra direita 
         }
 }
 
@@ -112,14 +142,42 @@ animar();
 window.addEventListener('keydown', (event) =>{
     switch(event.key)
     {
+
+       // Player 1
+
         case 'd': 
             teclas.d.pressed = true; 
-            ultimaTecla = 'd';
+            player.ultimaTecla = 'd';
             break;
 
         case 'a': 
             teclas.a.pressed = true;
-            ultimaTecla = 'a';
+            player.ultimaTecla = 'a';
+            break;
+
+        case ' ':  // espaço
+            player.speed.y = -10; // y recebe - 10, fazendo o player pular
+            break;
+
+        
+        case 'w': 
+            player.speed.y = -20; // y recebe - 10, fazendo o player pular
+            break;
+
+        // Player 2
+
+        case 'ArrowRight': 
+            teclas.ArrowRight.pressed = true; 
+            inimigo.ultimaTecla = 'ArrowRight';
+            break;
+
+        case 'ArrowLeft': 
+            teclas.ArrowLeft.pressed = true;
+            inimigo.ultimaTecla = 'ArrowLeft';
+            break;
+
+        case 'ArrowUp': 
+            inimigo.speed.y = -20; // y recebe - 10, fazendo o player pular
             break;
     }
     console.log(event.key);
@@ -128,12 +186,36 @@ window.addEventListener('keydown', (event) =>{
 window.addEventListener('keyup', (event) =>{
     switch(event.key)
     {
+        // Player 1
+
         case 'd': // se o jogador soltar d
             teclas.d.pressed = false // player para de se mexer
             break;
 
         case 'a': 
             teclas.a.pressed = false; 
+            break;
+
+        case ' ':  // espaço
+            teclas.pressed = false; 
+            break;
+        
+        case 'w':
+            teclas.w.pressed = false;
+            break;
+
+        // Player 2
+
+        case 'ArrowRight': 
+            teclas.ArrowRight.pressed = false // player para de se mexer
+            break;
+
+        case 'ArrowLeft': 
+            teclas.ArrowLeft.pressed = false; 
+            break;
+
+        case 'ArrowUp':  // espaço
+            teclas.ArrowUp.pressed = false; 
             break;
     }
     console.log(event.key);
