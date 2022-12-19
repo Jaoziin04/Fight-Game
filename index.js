@@ -29,6 +29,7 @@ class Sprite
     {
         this.desenhar();
         this.position.y += this.speed.y; // vai descendo a cada loop 
+        this.position.x += this.speed.x; // mexe pro lado
 
         if(this.position.y + this.height + this.speed.y >= canvas.height) // se o objeto for passar da tela do canvas
         {
@@ -68,15 +69,72 @@ const inimigo = new Sprite({
 
 console.log(player);
 
+// teclas que iremos usar no jogo
+const teclas = {
+    a:{
+        pressed: false
+    },
+
+    d:{
+        pressed: false
+    }
+}
+
+let ultimaTecla;
+
 // função para animar objetos
 function animar()
 {
-    window.requestAnimationFrame(animar);
-    console.log('animacao funcionou');
+    window.requestAnimationFrame(animar); // recursão
+    //console.log('animacao funcionou');
     con.fillStyle = 'black'; // mantem a tela preta
     con.fillRect(0, 0, canvas.width, canvas.height); // limpa o canvas
     player.atualizar() // desenha player na tela
     inimigo.atualizar() // desenha inimigo na tela
+
+    player.speed.x =0;
+
+    if(teclas.a.pressed == true && ultimaTecla === 'a') // se o jogador apertar a
+    {
+        player.speed.x = -1; // mexe player pra esquerda
+    }
+    else 
+        if(teclas.d.pressed == true && ultimaTecla === 'd') // se o jogador apertar d
+        {
+            player.speed.x = 1; // mexe player pra direita 
+        }
 }
 
-animar()
+animar();
+
+
+// funciona, sempre que o jogador pressiona uma tecla do teclado
+window.addEventListener('keydown', (event) =>{
+    switch(event.key)
+    {
+        case 'd': 
+            teclas.d.pressed = true; 
+            ultimaTecla = 'd';
+            break;
+
+        case 'a': 
+            teclas.a.pressed = true;
+            ultimaTecla = 'a';
+            break;
+    }
+    console.log(event.key);
+})
+
+window.addEventListener('keyup', (event) =>{
+    switch(event.key)
+    {
+        case 'd': // se o jogador soltar d
+            teclas.d.pressed = false // player para de se mexer
+            break;
+
+        case 'a': 
+            teclas.a.pressed = false; 
+            break;
+    }
+    console.log(event.key);
+})
