@@ -1,0 +1,35 @@
+*{
+    box-sizing: border-box;
+}
+
+#maior{
+    position: relative;
+    display: inline-block;
+}
+
+#menor{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+}
+
+#playerLife{
+    background-color: rgb(47, 145, 38);
+    height: 30px;
+    width: 100%;
+}
+
+#enemyLife{
+    background-color: rgb(47, 145, 38);
+    height: 30px;
+    width: 100%;
+}
+
+#tempo{
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
