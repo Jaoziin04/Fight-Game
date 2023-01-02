@@ -16,12 +16,20 @@
 }
 
 #playerLife{
-    background-color: rgb(47, 145, 38);
-    height: 30px;
+    position: absolute;
+    background: red;
+    top: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
 }
 
-#enemyLife{
+#vidaOrigI{
+    background-color: rgb(47, 145, 38);
+    height: 30px;
+}
+
+#vidaOrigP{
     background-color: rgb(47, 145, 38);
     height: 30px;
     width: 100%;
@@ -32,4 +40,27 @@
     width: 100px;
     height: 100px;
     flex-shrink: 0;
+}
+
+#arrumarInimigo{
+    position: relative;
+    height: 30px;
+    width: 100%;
+}
+
+#arrumarPlayer{
+    position: relative;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#enemyLife{
+    position: absolute;
+    background: red;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }

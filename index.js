@@ -33,6 +33,7 @@ class Sprite
 
         this.cor = cor;
         this.atacando;
+        this.health = 100;
     }
 
     desenhar()
@@ -197,7 +198,9 @@ function animar()
         colisaoRetangular({ retangulo1: player, retangulo2: inimigo}) &&  player.atacando)
     {
         player.atacando = false; // para o player não atacar duas vezes de uma vez só
-        console.log('colidiu');
+        //console.log('colidiu');
+        inimigo.health -= 20;
+        document.querySelector('#enemyLife').style.width = inimigo.health + '%';
     }
 
     if( 
@@ -205,7 +208,9 @@ function animar()
        )
        {
            inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
-           console.log('inimigo colidiu');
+           //console.log('inimigo colidiu');
+            player.health -=20;
+            document.querySelector('#playerLife').style.width = player.health + "%";
        }
 }
 
