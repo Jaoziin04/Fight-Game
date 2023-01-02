@@ -12,18 +12,36 @@ const gravidade = 0.7; // gravidade, para certificar que os objetos, estão no c
 // classe sprite, que ira ajudar na criação do player e do inimigo
 class Sprite
 {
-    constructor({posicao, speed})
+    constructor({posicao, speed, cor = 'blue'})
     {
         this.position = posicao;
         this.speed = speed;
+        this.width = 50;
         this.height = 150;
         this.ultimaTecla;
+        // zona de ataque que o player possui 
+        this.hitBox ={
+            posicao: this.position,
+            width:   100,
+            height: 50 
+            
+        }
+
+        this.cor = cor;
+        this.atacando;
     }
 
     desenhar()
     {
-        con.fillStyle = 'blue';
-        con.fillRect(this.position.x, this.position.y, 50, this.height);
+        con.fillStyle = this.cor;
+        con.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+        // hitBox
+        if(this.atacando)
+        {
+            con.fillStyle = 'white';
+            con.fillRect(this.hitBox.posicao.x, this.hitBox.posicao.y, this.hitBox.width, this.hitBox.height);
+        }
     }
 
     atualizar()
@@ -38,6 +56,15 @@ class Sprite
         }
         else // se não
             this.speed.y += gravidade; // objetos vão caindo
+            
+    }
+
+    ataque()
+    {
+        this.atacando = true;
+        setTimeout(() =>{
+            this.atacando = false;
+        }, 100) // depois de 100 milesegundos, atacando recebe false
     }
 }
 
@@ -56,14 +83,15 @@ const player = new Sprite({
 //criando inimigo
 const inimigo = new Sprite({
     posicao:{
-    x: 400,
+    x: 400, // 400, pois vai ser bem no fim da tela
     y: 0
     },
     speed:{
         x: 0,
         y: 0
-    }
-    // 400, pois vai ser bem no fim da tela
+    },
+    
+    cor: 'red'
 })
 
 
@@ -133,6 +161,18 @@ function animar()
         {
             inimigo.speed.x = 5; // mexe player pra direita 
         }
+
+    // detectar colisão
+
+    if(player.hitBox.posicao.x + player.hitBox.width >= inimigo.position.x && 
+        player.hitBox.posicao.x <= inimigo.position.x + inimigo.width && 
+        player.hitBox.posicao.y + player.hitBox.height >= inimigo.position.y && 
+        player.hitBox.posicao.y <= inimigo.position.y + inimigo.height && 
+        player.atacando)
+    {
+        player.atacando = false; // para o player não atacar duas vezes de uma vez só
+        console.log('colidiu');
+    }
 }
 
 animar();
@@ -156,7 +196,7 @@ window.addEventListener('keydown', (event) =>{
             break;
 
         case ' ':  // espaço
-            player.speed.y = -10; // y recebe - 10, fazendo o player pular
+            player.ataque();
             break;
 
         
