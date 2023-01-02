@@ -12,7 +12,7 @@ const gravidade = 0.7; // gravidade, para certificar que os objetos, estão no c
 // classe sprite, que ira ajudar na criação do player e do inimigo
 class Sprite
 {
-    constructor({posicao, speed, cor = 'blue'})
+    constructor({posicao, speed, cor = 'blue', offset})
     {
         this.position = posicao;
         this.speed = speed;
@@ -21,8 +21,12 @@ class Sprite
         this.ultimaTecla;
         // zona de ataque que o player possui 
         this.hitBox ={
-            posicao: this.position,
-            width:   100,
+            posicao: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            offset,
+            width:  100,
             height: 50 
             
         }
@@ -37,16 +41,22 @@ class Sprite
         con.fillRect(this.position.x, this.position.y, this.width, this.height);
 
         // hitBox
-        if(this.atacando)
-        {
+          if(this.atacando)
+         {
             con.fillStyle = 'white';
             con.fillRect(this.hitBox.posicao.x, this.hitBox.posicao.y, this.hitBox.width, this.hitBox.height);
-        }
+         }
     }
 
     atualizar()
     {
         this.desenhar();
+
+        // coloca a hitBox dos ataques nas posições corretas
+        this.hitBox.posicao.x = this.position.x + this.hitBox.offset.x; 
+        this.hitBox.posicao.y = this.position.y;
+
+        
         this.position.y += this.speed.y; // vai descendo a cada loop 
         this.position.x += this.speed.x; // mexe pro lado
 
@@ -77,6 +87,10 @@ const player = new Sprite({
     speed:{
         x: 0,
         y: 0
+    },
+    offset:{
+        x: 0,
+        y: 0
     }
 })
 
@@ -90,8 +104,11 @@ const inimigo = new Sprite({
         x: 0,
         y: 0
     },
-    
-    cor: 'red'
+    cor: 'red',
+    offset:{
+        x: -50,
+        y: 0
+    }
 })
 
 
@@ -126,6 +143,18 @@ const teclas = {
 }
 
 //let ultimaTecla;
+
+// verifica a colisão dos ataques dos players 
+function colisaoRetangular({ retangulo1, retangulo2})
+{
+    return(retangulo1.hitBox.posicao.x + retangulo1.hitBox.width >= 
+           retangulo2.position.x && 
+           retangulo1.hitBox.posicao.x <= 
+           retangulo2.position.x + retangulo2.width && 
+           retangulo1.hitBox.posicao.y + retangulo1.hitBox.height >= 
+           retangulo2.position.y && 
+           retangulo1.hitBox.posicao.y <= retangulo2.position.y + retangulo2.height)
+}
 
 // função para animar objetos
 function animar()
@@ -164,15 +193,20 @@ function animar()
 
     // detectar colisão
 
-    if(player.hitBox.posicao.x + player.hitBox.width >= inimigo.position.x && 
-        player.hitBox.posicao.x <= inimigo.position.x + inimigo.width && 
-        player.hitBox.posicao.y + player.hitBox.height >= inimigo.position.y && 
-        player.hitBox.posicao.y <= inimigo.position.y + inimigo.height && 
-        player.atacando)
+    if( 
+        colisaoRetangular({ retangulo1: player, retangulo2: inimigo}) &&  player.atacando)
     {
         player.atacando = false; // para o player não atacar duas vezes de uma vez só
         console.log('colidiu');
     }
+
+    if( 
+        colisaoRetangular({ retangulo1: inimigo, retangulo2: player}) &&  inimigo.atacando
+       )
+       {
+           inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
+           console.log('inimigo colidiu');
+       }
 }
 
 animar();
@@ -219,8 +253,13 @@ window.addEventListener('keydown', (event) =>{
         case 'ArrowUp': 
             inimigo.speed.y = -20; // y recebe - 10, fazendo o player pular
             break;
+
+        
+        case 'ArrowDown': 
+            inimigo.ataque();
+            break;
     }
-    console.log(event.key);
+    //console.log(event.key);
 })
 
 window.addEventListener('keyup', (event) =>{
@@ -258,5 +297,5 @@ window.addEventListener('keyup', (event) =>{
             teclas.ArrowUp.pressed = false; 
             break;
     }
-    console.log(event.key);
+   // console.log(event.key);
 })
