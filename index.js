@@ -161,12 +161,32 @@ let temp = 10;
 // função que diminui o tempo do relógio do jogo
 function timer()
 {
-    setTimeout(timer, 1000) // loop
-
+  
     if(temp > 0)
     {
+        setTimeout(timer, 1000) // loop
         temp--; // subtraí um do temp
         document.querySelector('#tempo').innerHTML = temp // tudo que está dentro do elemento com id tempo, recebe temp
+    }
+
+    if(temp === 0)
+    {
+        if(player.health == inimigo.health)
+        {
+            document.querySelector('#resultado').innerHTML = "EMPATE";
+            document.querySelector('#resultado').style.display = 'flex';
+        }
+        else
+        if(player.health > inimigo.health)
+        {
+            document.querySelector('#resultado').innerHTML = "PLAYER 1 VENCEU";
+            document.querySelector('#resultado').style.display = 'flex';
+        }
+        else
+        {
+            document.querySelector('#resultado').innerHTML = "PLAYER 2 VENCEU";
+            document.querySelector('#resultado').style.display = 'flex';
+        }
     }
 }
 
