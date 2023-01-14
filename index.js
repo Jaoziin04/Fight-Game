@@ -9,78 +9,18 @@ con.fillRect(0 , 0, canvas.width, canvas.height); // método da api do canvas, q
 
 const gravidade = 0.7; // gravidade, para certificar que os objetos, estão no chão
 
-// classe sprite, que ira ajudar na criação do player e do inimigo
-class Sprite
-{
-    constructor({posicao, speed, cor = 'blue', offset})
-    {
-        this.position = posicao;
-        this.speed = speed;
-        this.width = 50;
-        this.height = 150;
-        this.ultimaTecla;
-        // zona de ataque que o player possui 
-        this.hitBox ={
-            posicao: {
-                x: this.position.x,
-                y: this.position.y
-            },
-            offset,
-            width:  100,
-            height: 50 
-            
-        }
+// criando bacground
+const background = new Sprite({
+    posicao:{
+        x: 0,
+        y: 0
+    },
 
-        this.cor = cor;
-        this.atacando;
-        this.health = 100;
-    }
-
-    desenhar()
-    {
-        con.fillStyle = this.cor;
-        con.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-        // hitBox
-          if(this.atacando)
-         {
-            con.fillStyle = 'white';
-            con.fillRect(this.hitBox.posicao.x, this.hitBox.posicao.y, this.hitBox.width, this.hitBox.height);
-         }
-    }
-
-    atualizar()
-    {
-        this.desenhar();
-
-        // coloca a hitBox dos ataques nas posições corretas
-        this.hitBox.posicao.x = this.position.x + this.hitBox.offset.x; 
-        this.hitBox.posicao.y = this.position.y;
-
-        
-        this.position.y += this.speed.y; // vai descendo a cada loop 
-        this.position.x += this.speed.x; // mexe pro lado
-
-        if(this.position.y + this.height + this.speed.y >= canvas.height) // se o objeto for passar da tela do canvas
-        {
-            this.speed.y = 0; // para de cair
-        }
-        else // se não
-            this.speed.y += gravidade; // objetos vão caindo
-            
-    }
-
-    ataque()
-    {
-        this.atacando = true;
-        setTimeout(() =>{
-            this.atacando = false;
-        }, 100) // depois de 100 milesegundos, atacando recebe false
-    }
-}
+    imagem: './assets/background.png'
+})
 
 //criando player
-const player = new Sprite({
+const player = new Jogadores({
     posicao:{
     x: 0,
     y: 0
@@ -96,7 +36,7 @@ const player = new Sprite({
 })
 
 //criando inimigo
-const inimigo = new Sprite({
+const inimigo = new Jogadores({
     posicao:{
     x: 400, // 400, pois vai ser bem no fim da tela
     y: 0
@@ -145,59 +85,6 @@ const teclas = {
 
 //let ultimaTecla;
 
-// verifica a colisão dos ataques dos players 
-function colisaoRetangular({ retangulo1, retangulo2})
-{
-    return(retangulo1.hitBox.posicao.x + retangulo1.hitBox.width >= 
-           retangulo2.position.x && 
-           retangulo1.hitBox.posicao.x <= 
-           retangulo2.position.x + retangulo2.width && 
-           retangulo1.hitBox.posicao.y + retangulo1.hitBox.height >= 
-           retangulo2.position.y && 
-           retangulo1.hitBox.posicao.y <= retangulo2.position.y + retangulo2.height)
-}
-
-// função que determina quem venceu o jogo+
-function determinaVencedor({player, inimigo, timerId})
-{
-    clearTimeout(timerId); // para o timer
-     
-    if(player.health == inimigo.health) // se a vida dos player forem iguais
-        {
-            document.querySelector('#resultado').innerHTML = "EMPATE";
-            document.querySelector('#resultado').style.display = 'flex';
-        }
-        else
-        if(player.health > inimigo.health) // se a vida do player 1 for maior que a do player 2
-        {
-            document.querySelector('#resultado').innerHTML = "PLAYER 1 VENCEU";
-            document.querySelector('#resultado').style.display = 'flex';
-        }
-        else
-        {
-            document.querySelector('#resultado').innerHTML = "PLAYER 2 VENCEU";
-            document.querySelector('#resultado').style.display = 'flex';
-        }
-}
-
-let temp = 60;
-let timerId;
-// função que diminui o tempo do relógio do jogo
-function timer()
-{
-  
-    if(temp > 0)
-    {
-        timerId = setTimeout(timer, 1000) // loop
-        temp--; // subtraí um do temp
-        document.querySelector('#tempo').innerHTML = temp // tudo que está dentro do elemento com id tempo, recebe temp
-    }
-
-    if(temp === 0) // se o timer chegar a 0
-    {
-        determinaVencedor({player, inimigo, timerId});
-    }
-}
 
 timer();
 
@@ -208,8 +95,10 @@ function animar()
     //console.log('animacao funcionou');
     con.fillStyle = 'black'; // mantem a tela preta
     con.fillRect(0, 0, canvas.width, canvas.height); // limpa o canvas
-    player.atualizar() // desenha player na tela
-    inimigo.atualizar() // desenha inimigo na tela
+
+    background.atualizar(); // desenha o background na tela
+    player.atualizar(); // desenha player na tela
+    inimigo.atualizar(); // desenha inimigo na tela
 
     player.speed.x = 0;
     inimigo.speed.x = 0;
