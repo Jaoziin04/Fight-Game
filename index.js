@@ -157,6 +157,21 @@ function colisaoRetangular({ retangulo1, retangulo2})
            retangulo1.hitBox.posicao.y <= retangulo2.position.y + retangulo2.height)
 }
 
+let temp = 10;
+// função que diminui o tempo do relógio do jogo
+function timer()
+{
+    setTimeout(timer, 1000) // loop
+
+    if(temp > 0)
+    {
+        temp--; // subtraí um do temp
+        document.querySelector('#tempo').innerHTML = temp // tudo que está dentro do elemento com id tempo, recebe temp
+    }
+}
+
+timer();
+
 // função para animar objetos
 function animar()
 {
