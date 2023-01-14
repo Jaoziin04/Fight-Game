@@ -157,27 +157,18 @@ function colisaoRetangular({ retangulo1, retangulo2})
            retangulo1.hitBox.posicao.y <= retangulo2.position.y + retangulo2.height)
 }
 
-let temp = 10;
-// função que diminui o tempo do relógio do jogo
-function timer()
+// função que determina quem venceu o jogo+
+function determinaVencedor({player, inimigo, timerId})
 {
-  
-    if(temp > 0)
-    {
-        setTimeout(timer, 1000) // loop
-        temp--; // subtraí um do temp
-        document.querySelector('#tempo').innerHTML = temp // tudo que está dentro do elemento com id tempo, recebe temp
-    }
-
-    if(temp === 0)
-    {
-        if(player.health == inimigo.health)
+    clearTimeout(timerId); // para o timer
+     
+    if(player.health == inimigo.health) // se a vida dos player forem iguais
         {
             document.querySelector('#resultado').innerHTML = "EMPATE";
             document.querySelector('#resultado').style.display = 'flex';
         }
         else
-        if(player.health > inimigo.health)
+        if(player.health > inimigo.health) // se a vida do player 1 for maior que a do player 2
         {
             document.querySelector('#resultado').innerHTML = "PLAYER 1 VENCEU";
             document.querySelector('#resultado').style.display = 'flex';
@@ -187,6 +178,24 @@ function timer()
             document.querySelector('#resultado').innerHTML = "PLAYER 2 VENCEU";
             document.querySelector('#resultado').style.display = 'flex';
         }
+}
+
+let temp = 60;
+let timerId;
+// função que diminui o tempo do relógio do jogo
+function timer()
+{
+  
+    if(temp > 0)
+    {
+        timerId = setTimeout(timer, 1000) // loop
+        temp--; // subtraí um do temp
+        document.querySelector('#tempo').innerHTML = temp // tudo que está dentro do elemento com id tempo, recebe temp
+    }
+
+    if(temp === 0) // se o timer chegar a 0
+    {
+        determinaVencedor({player, inimigo, timerId});
     }
 }
 
@@ -247,6 +256,13 @@ function animar()
             player.health -=20;
             document.querySelector('#playerLife').style.width = player.health + "%";
        }
+
+    // fim de jogo, de acordo com a vida
+
+    if(inimigo.health <= 0 || player.health <= 0) // se a vida de um dos dois plaers acabar
+    {
+        determinaVencedor({player, inimigo, timerId})
+    }
 }
 
 animar();
