@@ -143,9 +143,20 @@ class Jogadores extends Sprite
 
     }
 
+    levouDano()
+    {
+        this.trocarSprite('hit');
+        this.health -= 20;
+    }
+
     trocarSprite(sprite) // método que vai trocar as imagens das sprites dos players
     {
+        // sobrepondo todas as outras animações, com a animação de ataque
         if(this.image === this.sprites.ataque1.image && this.frameAtual < this.sprites.ataque1.qtdFrames - 1)
+            return
+
+        // sobrepondo quando algum dos player leva dano
+        if(this.image === this.sprites.hit.image && this.frameAtual < this.sprites.hit.qtdFrames - 1)
             return
 
         switch(sprite)
@@ -191,6 +202,15 @@ class Jogadores extends Sprite
                 {
                     this.image = this.sprites.ataque1.image; // coloca a imagem de atacar na tela
                     this.qtdFrames = this.sprites.ataque1.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+            case 'hit':
+                if(this.image !== this.sprites.hit.image)
+                {
+                    this.image = this.sprites.hit.image; // coloca a imagem de atacar na tela
+                    this.qtdFrames = this.sprites.hit.qtdFrames; // coloca a quantidade de frames certa
                     this.frameAtual = 0; 
                 }
             break;

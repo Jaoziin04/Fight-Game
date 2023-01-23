@@ -76,6 +76,12 @@ const player = new Jogadores({
         ataque1:{
             imagem:'./assets/samuraiMack/attack1.png',
             qtdFrames: 6
+        },
+
+        
+        hit:{
+            imagem: './assets/samuraiMack/take hit - white silhouette.png',
+            qtdFrames: 4
         }
     },
     hitBox:{
@@ -134,6 +140,11 @@ const inimigo = new Jogadores({
         ataque1:{
             imagem:'./assets/kenji/attack1.png',
             qtdFrames: 4
+        },
+
+        hit:{
+            imagem: './assets/kenji/take hit.png',
+            qtdFrames: 3
         }
     },
     hitBox:{
@@ -250,33 +261,33 @@ function animar()
 
     // detectar colisão
 
+    // quando o player 2 leva dano 
     if( 
         colisaoRetangular({ retangulo1: player, retangulo2: inimigo}) &&  player.atacando && player.frameAtual === 4)
     {
+        inimigo.levouDano();
         player.atacando = false; // para o player não atacar duas vezes de uma vez só
-        //console.log('colidiu');
-        inimigo.health -= 20;
         document.querySelector('#enemyLife').style.width = inimigo.health + '%';
     }
 
-    // se o player errar
+    // se o player1 errar
 
     if(player.atacando && player.frameAtual === 4)
     {
         player.atacando = false;
     }
 
+    // quando player 1 leva dano
     if( 
         colisaoRetangular({ retangulo1: inimigo, retangulo2: player}) &&  inimigo.atacando && inimigo.frameAtual === 2)
        {
-           inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
-           //console.log('inimigo colidiu');
-            player.health -=20;
+            player.levouDano();
+            inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
             document.querySelector('#playerLife').style.width = player.health + "%";
        }
 
        
-    // se o player errar
+    // se o player2 errar
 
     if(inimigo.atacando && inimigo.frameAtual === 2)
     {
