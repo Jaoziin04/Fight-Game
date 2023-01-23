@@ -68,7 +68,8 @@ class Jogadores extends Sprite
         scale = 1, 
         qtdFrames = 1, 
         offset = {x:0, y:0}, 
-        sprites // contem todas as sprites que um player possui
+        sprites, // contem todas as sprites que um player possui
+        hitBox = { offset: {}, width: undefined, height: undefined}
     })
     {
         super({posicao, imagem, scale, qtdFrames, offset}); // chama o construtor do parente
@@ -83,9 +84,9 @@ class Jogadores extends Sprite
                 x: this.position.x,
                 y: this.position.y
             },
-            offset,
-            width:  100,
-            height: 50 
+            offset: hitBox.offset,
+            width:  hitBox.width,
+            height: hitBox.height 
             
         }
 
@@ -115,8 +116,9 @@ class Jogadores extends Sprite
 
         // coloca a hitBox dos ataques nas posições corretas
         this.hitBox.posicao.x = this.position.x + this.hitBox.offset.x; 
-        this.hitBox.posicao.y = this.position.y;
+        this.hitBox.posicao.y = this.position.y + this.hitBox.offset.y;
 
+    
         
         this.position.y += this.speed.y; // vai descendo a cada loop 
         this.position.x += this.speed.x; // mexe pro lado
@@ -138,16 +140,14 @@ class Jogadores extends Sprite
     {
         this.trocarSprite('ataque1');
         this.atacando = true;
-        setTimeout(() =>{
-            this.atacando = false;
-        }, 100) // depois de 100 milesegundos, atacando recebe false
+
     }
 
     trocarSprite(sprite) // método que vai trocar as imagens das sprites dos players
     {
         if(this.image === this.sprites.ataque1.image && this.frameAtual < this.sprites.ataque1.qtdFrames - 1)
             return
-            
+
         switch(sprite)
         {
             case 'idle':

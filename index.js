@@ -77,6 +77,14 @@ const player = new Jogadores({
             imagem:'./assets/samuraiMack/attack1.png',
             qtdFrames: 6
         }
+    },
+    hitBox:{
+        offset:{
+            x: 100,
+            y: 50
+        },
+        width: 160,
+        height: 50
     }
 })
 
@@ -127,7 +135,15 @@ const inimigo = new Jogadores({
             imagem:'./assets/kenji/attack1.png',
             qtdFrames: 4
         }
-    }  
+    },
+    hitBox:{
+        offset:{
+            x: -170,
+            y: 50
+        },
+        width: 170,
+        height: 50
+    } 
 })
 
 
@@ -235,7 +251,7 @@ function animar()
     // detectar colisão
 
     if( 
-        colisaoRetangular({ retangulo1: player, retangulo2: inimigo}) &&  player.atacando)
+        colisaoRetangular({ retangulo1: player, retangulo2: inimigo}) &&  player.atacando && player.frameAtual === 4)
     {
         player.atacando = false; // para o player não atacar duas vezes de uma vez só
         //console.log('colidiu');
@@ -243,15 +259,29 @@ function animar()
         document.querySelector('#enemyLife').style.width = inimigo.health + '%';
     }
 
+    // se o player errar
+
+    if(player.atacando && player.frameAtual === 4)
+    {
+        player.atacando = false;
+    }
+
     if( 
-        colisaoRetangular({ retangulo1: inimigo, retangulo2: player}) &&  inimigo.atacando
-       )
+        colisaoRetangular({ retangulo1: inimigo, retangulo2: player}) &&  inimigo.atacando && inimigo.frameAtual === 2)
        {
            inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
            //console.log('inimigo colidiu');
             player.health -=20;
             document.querySelector('#playerLife').style.width = player.health + "%";
        }
+
+       
+    // se o player errar
+
+    if(inimigo.atacando && inimigo.frameAtual === 2)
+    {
+        inimigo.atacando = false;
+    }
 
     // fim de jogo, de acordo com a vida
 
