@@ -212,6 +212,8 @@ function animar()
 
     background.atualizar(); // desenha o background na tela
     shop.atualizar(); // desenha shop na tela
+    con.fillStyle = 'rgba(255, 255, 255, 0.15)' // ajusta a opacidade
+    con.fillRect(0, 0, canvas.width, canvas.height);
     player.atualizar(); // desenha player na tela
     inimigo.atualizar(); // desenha inimigo na tela
 

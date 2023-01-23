@@ -1,34 +1,38 @@
-
-<body>    
-    <!--Div do conteiner do canvas-->
-    <div id="maior">
-        <!--Div menor do conteiner do canvas-->
-        <div id="menor">
-            <!--Vida do Player-->
-            <div id="arrumarPlayer">
-                <div id="playerLife"></div>
-                <div id="vidaOrigP"></div>
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <body>    
+        <!--Div do conteiner do canvas-->
+        <div id="maior">
+            <!--Div menor do conteiner do canvas-->
+            <div id="menor">
+                <!--Vida do Player-->
+                <div id="arrumarPlayer">
+                    <div id="playerLife"></div>
+                    <div id="vidaOrigP"></div>
+                </div>
+                <!--Tempo-->
+                <div id="tempo">
+                    10
+                </div>
+                <!--Vida do Inimigo-->
+                <div id="arrumarInimigo">
+                    <div id="enemyLife"></div>
+                    <div id="vidaOrigI"></div>
+                </div>
             </div>
-            <!--Tempo-->
-            <div id="tempo">
-                10
-            </div>
-            <!--Vida do Inimigo-->
-            <div id="arrumarInimigo">
-                <div id="enemyLife"></div>
-                <div id="vidaOrigI"></div>
-            </div>
+            <div id="resultado">Empate</div>
+            <canvas></canvas>
         </div>
-        <div id="resultado">Empate</div>
-        <canvas></canvas>
-    </div>
 
-    <!--linka html com javascript-->
-    <script src="script/utils.js"></script> 
-    <script src="script/classes.js"></script> 
-    <script src="index.js"></script> 
+        <!--linka html com javascript-->
+        <script src="script/utils.js"></script> 
+        <script src="script/classes.js"></script> 
+        <script src="index.js"></script> 
 
-    <!--linka html com css-->
-    <link rel="stylesheet" type="text/css" href="index.css"/>
-   
-</body>
+        <!--linka html com css-->
+        <link rel="stylesheet" type="text/css" href="index.css"/>
+    
+    </body>
+</head>

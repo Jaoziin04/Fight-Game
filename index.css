@@ -1,5 +1,6 @@
 *{
     box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
 }
 
 #maior{
@@ -17,7 +18,7 @@
 
 #playerLife{
     position: absolute;
-    background: red;
+    background:  #34D399;
     top: 0;
     right: 0;
     bottom: 0;
@@ -25,43 +26,49 @@
 }
 
 #vidaOrigI{
-    background-color: rgb(47, 145, 38);
+    background-color: #F87171;
     height: 30px;
 }
 
 #vidaOrigP{
-    background-color: rgb(47, 145, 38);
+    background-color: #F87171;
     height: 30px;
     width: 100%;
 }
 
 #tempo{
-    background-color: red;
+    background-color: black;
     width: 100px;
-    height: 100px;
+    height: 50px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    border: 4px solid white;
 }
 
 #arrumarInimigo{
     position: relative;
-    height: 30px;
     width: 100%;
+    border-top: 4px solid white;
+    border-right: 4px solid white;
+    border-bottom: 4px solid white;
 }
 
 #arrumarPlayer{
     position: relative;
-    height: 30px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+    border-bottom: 4px solid white;
 }
 
 #enemyLife{
     position: absolute;
-    background: red;
+    background: #34D399;
     top: 0;
     right: 0;
     left: 0;
