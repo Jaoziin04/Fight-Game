@@ -46,7 +46,7 @@ const player = new Jogadores({
         y: 0
     },
     imagem: './assets/samuraiMack/idle.png',
-    qtdFrames: 8, // quantidade de frames que o shopping possui
+    qtdFrames: 8, // quantidade de frames por padrão
     scale: 2.5,
     offset:{
         x: 215,
@@ -94,7 +94,40 @@ const inimigo = new Jogadores({
     offset:{
         x: -50,
         y: 0
-    }
+    },
+    imagem: './assets/kenji/idle.png',
+    qtdFrames: 4,  // quantidade de frames por padrão
+    scale: 2.5,
+    offset:{
+        x: 215,
+        y: 167
+    },
+    sprites:{
+        idle:{
+            imagem:'./assets/kenji/idle.png',
+            qtdFrames: 4
+        },
+
+        correr:{
+            imagem:'./assets/kenji/run.png',
+            qtdFrames: 8,
+        },
+
+        pular:{
+            imagem:'./assets/kenji/jump.png',
+            qtdFrames: 2
+        },
+
+        cair:{
+            imagem:'./assets/kenji/fall.png',
+            qtdFrames: 2
+        },
+
+        ataque1:{
+            imagem:'./assets/kenji/attack1.png',
+            qtdFrames: 4
+        }
+    }  
 })
 
 
@@ -144,7 +177,7 @@ function animar()
     background.atualizar(); // desenha o background na tela
     shop.atualizar(); // desenha shop na tela
     player.atualizar(); // desenha player na tela
-    //inimigo.atualizar(); // desenha inimigo na tela
+    inimigo.atualizar(); // desenha inimigo na tela
 
     player.speed.x = 0;
     inimigo.speed.x = 0;
@@ -178,12 +211,26 @@ function animar()
     if(teclas.ArrowLeft.pressed == true && inimigo.ultimaTecla === 'ArrowLeft') 
     {
         inimigo.speed.x = -5; // mexe player pra esquerda
+        inimigo.trocarSprite('correr');
     }
     else 
         if(teclas.ArrowRight.pressed == true && inimigo.ultimaTecla === 'ArrowRight')
         {
             inimigo.speed.x = 5; // mexe player pra direita 
+            inimigo.trocarSprite('correr');
         }
+        else
+        inimigo.trocarSprite('idle');
+
+    // animação de pular
+    if(inimigo.speed.y < 0)
+    {
+        inimigo.trocarSprite('pular');
+    }
+    else if(inimigo.speed.y > 0)
+    {
+        inimigo.trocarSprite('cair');
+    }
 
     // detectar colisão
 
