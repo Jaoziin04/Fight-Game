@@ -118,7 +118,7 @@ function animar()
     background.atualizar(); // desenha o background na tela
     shop.atualizar(); // desenha shop na tela
     player.atualizar(); // desenha player na tela
-    inimigo.atualizar(); // desenha inimigo na tela
+    //inimigo.atualizar(); // desenha inimigo na tela
 
     player.speed.x = 0;
     inimigo.speed.x = 0;
