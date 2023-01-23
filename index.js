@@ -19,6 +19,17 @@ const background = new Sprite({
     imagem: './assets/background.png'
 })
 
+// criando shop
+const shop = new Sprite({
+    posicao:{
+        x: 600,
+        y: 128
+    },
+
+    imagem: './assets/shop.png',
+    scale: 2.75
+})
+
 //criando player
 const player = new Jogadores({
     posicao:{
@@ -97,6 +108,7 @@ function animar()
     con.fillRect(0, 0, canvas.width, canvas.height); // limpa o canvas
 
     background.atualizar(); // desenha o background na tela
+    shop.atualizar(); // desenha shop na tela
     player.atualizar(); // desenha player na tela
     inimigo.atualizar(); // desenha inimigo na tela
 

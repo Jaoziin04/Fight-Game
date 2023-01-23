@@ -2,19 +2,20 @@
 // classe onde iremos utilizar as imagens do jogo
 class Sprite
 {
-    constructor({posicao, imagem})
+    constructor({posicao, imagem, scale = 1})
     {
         this.position = posicao;
         this.width = 50;
         this.height = 150;
         this.image = new Image();  // cria uma nova imagem
         this.image.src = imagem; // imagem recebe o link da imagem, que queremos mostrar
-
+        this.scale = scale // define a dimensão das imagens
+ 
     }
 
     desenhar()
     {
-        con.drawImage(this.image, this.position.x, this.position.y);
+        con.drawImage(this.image, this.position.x, this.position.y, this.image.width * this.scale, this.image.height * this.scale);
     }
 
     atualizar()
