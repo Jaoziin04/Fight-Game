@@ -97,6 +97,7 @@ class Jogadores extends Sprite
         this.framesUsados = 0 // define quantos frames foram usados na animação
         this.framesHold = 7 // define a velocidade dos frames do shopping
         this.sprites = sprites // contem todas as sprites de um player
+        this.morto = false // indica que o player está morto
 
         // foreach
         for(const sprite in this.sprites)
@@ -112,7 +113,9 @@ class Jogadores extends Sprite
     atualizar()
     {
         this.desenhar(); // coloca o player na tela
-        this.animar() // anima os frames da iamgem
+
+        if(!this.morto)
+            this.animar() // anima os frames da iamgem
 
         // coloca a hitBox dos ataques nas posições corretas
         this.hitBox.posicao.x = this.position.x + this.hitBox.offset.x; 
@@ -145,12 +148,26 @@ class Jogadores extends Sprite
 
     levouDano()
     {
-        this.trocarSprite('hit');
         this.health -= 20;
+
+        if(this.health <= 0)
+        {
+            this.trocarSprite('morte');
+        }
+        else
+            this.trocarSprite('hit');
     }
 
     trocarSprite(sprite) // método que vai trocar as imagens das sprites dos players
     {
+          // sobrepondo quando algum dos player morre
+          if(this.image === this.sprites.morte.image)
+          {
+             if(this.frameAtual === this.sprites.morte.qtdFrames - 1)
+                 this.morto = true; 
+             return
+          }
+
         // sobrepondo todas as outras animações, com a animação de ataque
         if(this.image === this.sprites.ataque1.image && this.frameAtual < this.sprites.ataque1.qtdFrames - 1)
             return
@@ -158,6 +175,7 @@ class Jogadores extends Sprite
         // sobrepondo quando algum dos player leva dano
         if(this.image === this.sprites.hit.image && this.frameAtual < this.sprites.hit.qtdFrames - 1)
             return
+
 
         switch(sprite)
         {
@@ -209,8 +227,17 @@ class Jogadores extends Sprite
             case 'hit':
                 if(this.image !== this.sprites.hit.image)
                 {
-                    this.image = this.sprites.hit.image; // coloca a imagem de atacar na tela
+                    this.image = this.sprites.hit.image; // coloca a imagem de dano na tela
                     this.qtdFrames = this.sprites.hit.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+            case 'morte':
+                if(this.image !== this.sprites.morte.image)
+                {
+                    this.image = this.sprites.morte.image; // coloca a imagem de morte na tela
+                    this.qtdFrames = this.sprites.morte.qtdFrames; // coloca a quantidade de frames certa
                     this.frameAtual = 0; 
                 }
             break;

@@ -77,11 +77,15 @@ const player = new Jogadores({
             imagem:'./assets/samuraiMack/attack1.png',
             qtdFrames: 6
         },
-
-        
+    
         hit:{
             imagem: './assets/samuraiMack/take hit - white silhouette.png',
             qtdFrames: 4
+        },
+
+        morte:{
+            imagem: './assets/samuraiMack/death.png',
+            qtdFrames: 6
         }
     },
     hitBox:{
@@ -145,6 +149,11 @@ const inimigo = new Jogadores({
         hit:{
             imagem: './assets/kenji/take hit.png',
             qtdFrames: 3
+        },
+
+        morte:{
+            imagem: './assets/kenji/death.png',
+            qtdFrames: 7
         }
     },
     hitBox:{
@@ -307,50 +316,60 @@ animar();
 
 // funciona, sempre que o jogador pressiona uma tecla do teclado
 window.addEventListener('keydown', (event) =>{
-    switch(event.key)
+     // Player 1
+    if(!player.morto)
     {
+        switch(event.key)
+        {
 
-       // Player 1
 
-        case 'd': 
-            teclas.d.pressed = true; 
-            player.ultimaTecla = 'd';
-            break;
+            case 'd': 
+                teclas.d.pressed = true; 
+                player.ultimaTecla = 'd';
+                break;
 
-        case 'a': 
-            teclas.a.pressed = true;
-            player.ultimaTecla = 'a';
-            break;
+            case 'a': 
+                teclas.a.pressed = true;
+                player.ultimaTecla = 'a';
+                break;
 
-        case ' ':  // espaço
-            player.ataque();
-            break;
+            case ' ':  // espaço
+                player.ataque();
+                break;
 
-        
-        case 'w': 
-            player.speed.y = -20; // y recebe - 10, fazendo o player pular
-            break;
+            
+            case 'w': 
+                player.speed.y = -20; // y recebe - 10, fazendo o player pular
+                break;
+        }
 
         // Player 2
+        if(!inimigo.morto)
+        {
+            switch(event.key)
+            {
+                
 
-        case 'ArrowRight': 
-            teclas.ArrowRight.pressed = true; 
-            inimigo.ultimaTecla = 'ArrowRight';
+            case 'ArrowRight': 
+                teclas.ArrowRight.pressed = true; 
+                inimigo.ultimaTecla = 'ArrowRight';
             break;
 
-        case 'ArrowLeft': 
-            teclas.ArrowLeft.pressed = true;
-            inimigo.ultimaTecla = 'ArrowLeft';
-            break;
+            case 'ArrowLeft': 
+                teclas.ArrowLeft.pressed = true;
+                inimigo.ultimaTecla = 'ArrowLeft';
+                break;
 
-        case 'ArrowUp': 
-            inimigo.speed.y = -20; // y recebe - 10, fazendo o player pular
-            break;
+            case 'ArrowUp': 
+                inimigo.speed.y = -20; // y recebe - 10, fazendo o player pular
+                break;
 
-        
-        case 'ArrowDown': 
-            inimigo.ataque();
-            break;
+            
+            case 'ArrowDown': 
+                inimigo.ataque();
+                break;
+            }
+        }
     }
     //console.log(event.key);
 })
