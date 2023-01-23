@@ -9,12 +9,12 @@ class Sprite
         this.height = 150;
         this.image = new Image();  // cria uma nova imagem
         this.image.src = imagem; // imagem recebe o link da imagem, que queremos mostrar
-        this.scale = scale; // define a dimensão das imagens
-        this.qtdFrames = qtdFrames; // define a quantidade de frames da imagem
-        this.frameAtual = 0; // define qual o frame atual da imagem
-        this.framesUsados = 0; // define quantos frames foram usados na animação
-        this.framesHold = 7; // define a velocidade dos frames do shopping
-        this.offset = offset;
+        this.scale = scale // define a dimensão das imagens
+        this.qtdFrames = qtdFrames // define a quantidade de frames da imagem
+        this.frameAtual = 0 // define qual o frame atual da imagem
+        this.framesUsados = 0 // define quantos frames foram usados na animação
+        this.framesHold = 7 // define a velocidade dos frames do shopping
+        this.offset = offset
  
     }
 
@@ -60,7 +60,16 @@ class Sprite
 // classe onde iremos usar o player e do inimigo
 class Jogadores extends Sprite
 {
-    constructor({posicao, speed, cor = 'blue', imagem, scale = 1, qtdFrames = 1, offset = {x:0, y:0}})
+    constructor({
+        posicao, 
+        speed, 
+        cor = 'blue', 
+        imagem, 
+        scale = 1, 
+        qtdFrames = 1, 
+        offset = {x:0, y:0}, 
+        sprites // contem todas as sprites que um player possui
+    })
     {
         super({posicao, imagem, scale, qtdFrames, offset}); // chama o construtor do parente
 
@@ -86,6 +95,17 @@ class Jogadores extends Sprite
         this.frameAtual = 0 // define qual o frame atual da imagem
         this.framesUsados = 0 // define quantos frames foram usados na animação
         this.framesHold = 7 // define a velocidade dos frames do shopping
+        this.sprites = sprites // contem todas as sprites de um player
+
+        // foreach
+        for(const sprite in this.sprites)
+        {
+            sprites[sprite].image = new Image();
+            sprites[sprite].image.src = sprites[sprite].imagem; 
+        }
+
+     //   console.log(this.sprites);
+
     }
 
 

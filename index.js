@@ -51,6 +51,27 @@ const player = new Jogadores({
     offset:{
         x: 215,
         y: 157
+    },
+    sprites:{
+        idle:{
+            imagem:'./assets/samuraiMack/idle.png',
+            qtdFrames: 8
+        },
+
+        correr:{
+            imagem:'./assets/samuraiMack/run.png',
+            qtdFrames: 8,
+        },
+
+        pular:{
+            imagem:'./assets/samuraiMack/jump.png',
+            qtdFrames: 2
+        },
+
+        cair:{
+            imagem:'./assets/samuraiMack/idle.png',
+            qtdFrames: 2
+        }
     }
 })
 
@@ -124,14 +145,17 @@ function animar()
     inimigo.speed.x = 0;
 
     // Player 1
+    player.image = player.sprites.idle.image; // coloca a padrão na tela
     if(teclas.a.pressed == true && player.ultimaTecla === 'a') // se o jogador apertar a
     {
         player.speed.x = -5; // mexe player pra esquerda
+        player.image = player.sprites.correr.image; // coloca a imagem de correr
     }
     else 
         if(teclas.d.pressed == true && player.ultimaTecla === 'd') // se o jogador apertar d
         {
             player.speed.x = 5; // mexe player pra direita 
+            player.image = player.sprites.correr.image; // coloca a imagem de correr
         }
 
     // Player 2
