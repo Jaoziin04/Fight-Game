@@ -136,6 +136,7 @@ class Jogadores extends Sprite
 
     ataque()
     {
+        this.trocarSprite('ataque1');
         this.atacando = true;
         setTimeout(() =>{
             this.atacando = false;
@@ -144,6 +145,9 @@ class Jogadores extends Sprite
 
     trocarSprite(sprite) // método que vai trocar as imagens das sprites dos players
     {
+        if(this.image === this.sprites.ataque1.image && this.frameAtual < this.sprites.ataque1.qtdFrames - 1)
+            return
+            
         switch(sprite)
         {
             case 'idle':
@@ -178,6 +182,15 @@ class Jogadores extends Sprite
                 {
                     this.image = this.sprites.cair.image; // coloca a imagem de cair na tela
                     this.qtdFrames = this.sprites.cair.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+            case 'ataque1':
+                if(this.image !== this.sprites.ataque1.image)
+                {
+                    this.image = this.sprites.ataque1.image; // coloca a imagem de atacar na tela
+                    this.qtdFrames = this.sprites.ataque1.qtdFrames; // coloca a quantidade de frames certa
                     this.frameAtual = 0; 
                 }
             break;

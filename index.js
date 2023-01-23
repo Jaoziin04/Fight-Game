@@ -71,6 +71,11 @@ const player = new Jogadores({
         cair:{
             imagem:'./assets/samuraiMack/fall.png',
             qtdFrames: 2
+        },
+
+        ataque1:{
+            imagem:'./assets/samuraiMack/attack1.png',
+            qtdFrames: 6
         }
     }
 })
