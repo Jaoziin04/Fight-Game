@@ -2,7 +2,7 @@
 // classe onde iremos utilizar as imagens do jogo
 class Sprite
 {
-    constructor({posicao, imagem, scale = 1})
+    constructor({posicao, imagem, scale = 1, qtdFrames = 1})
     {
         this.position = posicao;
         this.width = 50;
@@ -10,17 +10,44 @@ class Sprite
         this.image = new Image();  // cria uma nova imagem
         this.image.src = imagem; // imagem recebe o link da imagem, que queremos mostrar
         this.scale = scale // define a dimensão das imagens
+        this.qtdFrames = qtdFrames // define a quantidade de frames da imagem
+        this.frameAtual = 0 // define qual o frame atual da imagem
+        this.framesUsados = 0 // define quantos frames foram usados na animação
+        this.framesHold = 7 // define a velocidade dos frames do shopping
+
  
     }
 
     desenhar()
     {
-        con.drawImage(this.image, this.position.x, this.position.y, this.image.width * this.scale, this.image.height * this.scale);
+        con.drawImage(
+            this.image,
+            this.frameAtual * (this.image.width / this.qtdFrames),
+            0,
+            this.image.width / this.qtdFrames,
+            this.image.height,
+            this.position.x, 
+            this.position.y, 
+            (this.image.width / this.qtdFrames) * this.scale, // largura real da imagem
+            this.image.height * this.scale // altura real da imagem
+            );
     }
 
     atualizar()
     {
         this.desenhar();
+        this.framesUsados++;
+
+        if(this.framesUsados % this.framesHold === 0)
+        {
+
+            if(this.frameAtual < this.qtdFrames - 1)
+            {
+                this.frameAtual++;
+            }
+            else
+            this.frameAtual = 0;
+        }
             
     }
 }

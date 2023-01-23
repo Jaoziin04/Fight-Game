@@ -27,7 +27,8 @@ const shop = new Sprite({
     },
 
     imagem: './assets/shop.png',
-    scale: 2.75
+    scale: 2.75,
+    qtdFrames: 6 // quantidade de frames que o shopping possui
 })
 
 //criando player
