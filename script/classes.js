@@ -104,7 +104,6 @@ class Jogadores extends Sprite
             sprites[sprite].image.src = sprites[sprite].imagem; 
         }
 
-     //   console.log(this.sprites);
 
     }
 
@@ -122,12 +121,16 @@ class Jogadores extends Sprite
         this.position.y += this.speed.y; // vai descendo a cada loop 
         this.position.x += this.speed.x; // mexe pro lado
 
+        // gravidade
         if(this.position.y + this.height + this.speed.y >= canvas.height - 96) // se o objeto for passar da tela do canvas
         {
             this.speed.y = 0; // para de cair
+            this.position.y = 330 // posição exata do solo
         }
         else // se não
             this.speed.y += gravidade; // objetos vão caindo
+
+        console.log(this.position.y)
             
     }
 
@@ -137,5 +140,48 @@ class Jogadores extends Sprite
         setTimeout(() =>{
             this.atacando = false;
         }, 100) // depois de 100 milesegundos, atacando recebe false
+    }
+
+    trocarSprite(sprite) // método que vai trocar as imagens das sprites dos players
+    {
+        switch(sprite)
+        {
+            case 'idle':
+                if(this.image !== this.sprites.idle.image)
+                { 
+                    this.image = this.sprites.idle.image; // coloca a padrão na tela
+                    this.qtdFrames = this.sprites.idle.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+            case 'correr':
+                if(this.image !== this.sprites.correr.image)
+                {
+                    this.image = this.sprites.correr.image; // coloca a imagem de correr
+                    this.qtdFrames = this.sprites.correr.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0;
+                }
+            break;
+
+            case 'pular':
+                if(this.image !== this.sprites.pular.image)
+                {
+                    this.image = this.sprites.pular.image; // coloca a imagem de pular na tela
+                    this.qtdFrames = this.sprites.pular.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+            case 'cair':
+                if(this.image !== this.sprites.cair.image)
+                {
+                    this.image = this.sprites.cair.image; // coloca a imagem de cair na tela
+                    this.qtdFrames = this.sprites.cair.qtdFrames; // coloca a quantidade de frames certa
+                    this.frameAtual = 0; 
+                }
+            break;
+
+        }
     }
 }

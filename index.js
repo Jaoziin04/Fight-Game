@@ -69,7 +69,7 @@ const player = new Jogadores({
         },
 
         cair:{
-            imagem:'./assets/samuraiMack/idle.png',
+            imagem:'./assets/samuraiMack/fall.png',
             qtdFrames: 2
         }
     }
@@ -144,19 +144,30 @@ function animar()
     player.speed.x = 0;
     inimigo.speed.x = 0;
 
-    // Player 1
-    player.image = player.sprites.idle.image; // coloca a padrão na tela
+    // Player 
     if(teclas.a.pressed == true && player.ultimaTecla === 'a') // se o jogador apertar a
     {
         player.speed.x = -5; // mexe player pra esquerda
-        player.image = player.sprites.correr.image; // coloca a imagem de correr
+        player.trocarSprite('correr');
     }
     else 
         if(teclas.d.pressed == true && player.ultimaTecla === 'd') // se o jogador apertar d
         {
             player.speed.x = 5; // mexe player pra direita 
-            player.image = player.sprites.correr.image; // coloca a imagem de correr
+            player.trocarSprite('correr');
         }
+        else
+            player.trocarSprite('idle');
+
+        // animação de pular
+    if(player.speed.y < 0)
+    {
+        player.trocarSprite('pular');
+    }
+    else if(player.speed.y > 0)
+    {
+        player.trocarSprite('cair');
+    }
 
     // Player 2
     if(teclas.ArrowLeft.pressed == true && inimigo.ultimaTecla === 'ArrowLeft') 
