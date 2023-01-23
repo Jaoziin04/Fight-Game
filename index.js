@@ -278,7 +278,7 @@ function animar()
     {
         inimigo.levouDano();
         player.atacando = false; // para o player não atacar duas vezes de uma vez só
-        document.querySelector('#enemyLife').style.width = inimigo.health + '%';
+        gsap.to('#enemyLife', {width: inimigo.health + '%'}); // anima a vida perdida pelo personagem
     }
 
     // se o player1 errar
@@ -294,7 +294,7 @@ function animar()
        {
             player.levouDano();
             inimigo.atacando = false; // para o player não atacar duas vezes de uma vez só
-            document.querySelector('#playerLife').style.width = player.health + "%";
+            gsap.to('#playerLife', {width: player.health + "%"}); // anima a vida perdida pelo personagem
        }
 
        
