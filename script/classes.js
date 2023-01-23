@@ -2,19 +2,19 @@
 // classe onde iremos utilizar as imagens do jogo
 class Sprite
 {
-    constructor({posicao, imagem, scale = 1, qtdFrames = 1})
+    constructor({posicao, imagem, scale = 1, qtdFrames = 1, offset = {x:0, y:0}})
     {
         this.position = posicao;
         this.width = 50;
         this.height = 150;
         this.image = new Image();  // cria uma nova imagem
         this.image.src = imagem; // imagem recebe o link da imagem, que queremos mostrar
-        this.scale = scale // define a dimensão das imagens
-        this.qtdFrames = qtdFrames // define a quantidade de frames da imagem
-        this.frameAtual = 0 // define qual o frame atual da imagem
-        this.framesUsados = 0 // define quantos frames foram usados na animação
-        this.framesHold = 7 // define a velocidade dos frames do shopping
-
+        this.scale = scale; // define a dimensão das imagens
+        this.qtdFrames = qtdFrames; // define a quantidade de frames da imagem
+        this.frameAtual = 0; // define qual o frame atual da imagem
+        this.framesUsados = 0; // define quantos frames foram usados na animação
+        this.framesHold = 7; // define a velocidade dos frames do shopping
+        this.offset = offset;
  
     }
 
@@ -26,8 +26,8 @@ class Sprite
             0,
             this.image.width / this.qtdFrames,
             this.image.height,
-            this.position.x, 
-            this.position.y, 
+            this.position.x - this.offset.x, 
+            this.position.y - this.offset.y, 
             (this.image.width / this.qtdFrames) * this.scale, // largura real da imagem
             this.image.height * this.scale // altura real da imagem
             );
@@ -35,7 +35,13 @@ class Sprite
 
     atualizar()
     {
-        this.desenhar();
+        this.desenhar(); // coloca a imagem na tela
+        this.animar(); // anima os frames da imagem
+            
+    }
+
+    animar() // método que irá animar os frames das imagens
+    {
         this.framesUsados++;
 
         if(this.framesUsados % this.framesHold === 0)
@@ -48,16 +54,16 @@ class Sprite
             else
             this.frameAtual = 0;
         }
-            
     }
 }
 
 // classe onde iremos usar o player e do inimigo
-class Jogadores
+class Jogadores extends Sprite
 {
-    constructor({posicao, speed, cor = 'blue', offset})
+    constructor({posicao, speed, cor = 'blue', imagem, scale = 1, qtdFrames = 1, offset = {x:0, y:0}})
     {
-        this.position = posicao;
+        super({posicao, imagem, scale, qtdFrames, offset}); // chama o construtor do parente
+
         this.speed = speed;
         this.width = 50;
         this.height = 150;
@@ -77,24 +83,16 @@ class Jogadores
         this.cor = cor;
         this.atacando;
         this.health = 100;
+        this.frameAtual = 0 // define qual o frame atual da imagem
+        this.framesUsados = 0 // define quantos frames foram usados na animação
+        this.framesHold = 7 // define a velocidade dos frames do shopping
     }
 
-    desenhar()
-    {
-        con.fillStyle = this.cor;
-        con.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-        // hitBox
-          if(this.atacando)
-         {
-            con.fillStyle = 'white';
-            con.fillRect(this.hitBox.posicao.x, this.hitBox.posicao.y, this.hitBox.width, this.hitBox.height);
-         }
-    }
 
     atualizar()
     {
-        this.desenhar();
+        this.desenhar(); // coloca o player na tela
+        this.animar() // anima os frames da iamgem
 
         // coloca a hitBox dos ataques nas posições corretas
         this.hitBox.posicao.x = this.position.x + this.hitBox.offset.x; 

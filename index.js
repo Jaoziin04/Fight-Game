@@ -44,6 +44,13 @@ const player = new Jogadores({
     offset:{
         x: 0,
         y: 0
+    },
+    imagem: './assets/samuraiMack/idle.png',
+    qtdFrames: 8, // quantidade de frames que o shopping possui
+    scale: 2.5,
+    offset:{
+        x: 215,
+        y: 157
     }
 })
 
