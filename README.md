@@ -31,7 +31,7 @@ O jogo é feito para passar o tempo e se divertir,  possui 2 players de maneira 
 
 ```
 git clone https://github.com/Jaoziin04/Fight-Game.git
-cd Fight-Game<br>
+cd Fight-Game
 ```
 
 para executar o jogo depois de baixar o repositório, basta abrir a pasta onde foi baixado e clicar no arquivo index.js
